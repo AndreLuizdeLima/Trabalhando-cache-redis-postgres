@@ -1,6 +1,7 @@
 services:
   redis:
     image: redis
+    restart: always
     command: redis-server --requirepass admin
     ports:
       - "6379:6379"
