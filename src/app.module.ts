@@ -8,7 +8,7 @@ import { UsersModule } from './users/users.module';
     providers: [
         {
             provide: 'PG_CONNECTION',
-            useFactory: async () => {
+            useFactory: (): any => {
                 return new Pool({
                     host: 'localhost',
                     port: 5432,
@@ -20,7 +20,7 @@ import { UsersModule } from './users/users.module';
         },
         {
             provide: 'REDIS_CLIENT',
-            useFactory: async () => {
+            useFactory: (): any => {
                 return new Redis({
                     host: 'localhost',
                     port: 6379,
