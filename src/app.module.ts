@@ -1,10 +1,33 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { Pool } from 'pg';
+import Redis from 'ioredis';
+import { UsersModule } from './users/users.module';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+    imports: [UsersModule],
+    providers: [
+        {
+            provide: 'PG_CONNECTION',
+            useFactory: async () => {
+                return new Pool({
+                    host: 'localhost',
+                    port: 5432,
+                    user: 'postgres',
+                    password: 'admin',
+                    database: 'test',
+                });
+            },
+        },
+        {
+            provide: 'REDIS_CLIENT',
+            useFactory: async () => {
+                return new Redis({
+                    host: 'localhost',
+                    port: 6379,
+                });
+            },
+        },
+    ],
+    exports: ['PG_CONNECTION', 'REDIS_CLIENT'],
 })
 export class AppModule {}
